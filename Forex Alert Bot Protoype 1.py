@@ -3,11 +3,12 @@ import matplotlib.pyplot as plt
 import time
 import pymysql
 import smtplib
-from multiprocessing import Process
+
+connection = pymysql.connect(host="localhost", user="root", password="Rodsader1*", db="forextrade")
 
 def sql_grabber_and_trendline_generator():
 
-    global connection
+    connection = pymysql.connect(host="localhost", user="root", password="Rodsader1*", db="forextrade")
     b = 1
 
     print("Enter a start point for the bottom trend line")
@@ -31,7 +32,6 @@ def sql_grabber_and_trendline_generator():
             data, _ = cc.get_currency_exchange_intraday(from_symbol='EUR', to_symbol='USD', interval="1min", outputsize='compact')
 
             converteddata = str(data)
-            global connection
             global cursor
             connection = pymysql.connect(host="localhost", user="root", password="Rodsader1*", db="forextrade")
             cursor = connection.cursor()
@@ -40,6 +40,10 @@ def sql_grabber_and_trendline_generator():
             sql5 = "insert into testtimeprice(testimedata) values (substring(%s from 10794 for 19))"
             sql6 = "insert into testcloseprice(testclosedata) values (substring(%s from 10892 for 6))"
             sql7 = "insert into testopenprice(testopendata) values (substring(%s from 10829 for 6))"
+            sql8 = "select testclosedata from testcloseprice order by id desc limit 1"
+            sql12 = "select testtoptrendlinedata from testtoptrendline order by id desc limit 1"
+            sql13 = "insert into testtriggerz(testanswer) values (%s)"
+            sql10 = "select testopendata from testopenprice order by id desc limit 1"
 
             newuser = newuser + 0.0264
             newuser2 = newuser2
@@ -50,7 +54,14 @@ def sql_grabber_and_trendline_generator():
             cursor.execute(sql7, converteddata)
             print("insert successful")
             connection.commit()
-            time.sleep(60)
+            cursor.execute(sql8)
+            cursor.execute(sql10)
+            cursor.execute(sql12)
+            cursor.execute(sql13)
+            cursor.execute()
+            if cursor.execute(sql8) >= cursor.execute(sql3):
+                print("closing price is above top trend line")
+            elif cursor.execute(sql8) <= cursor.execute(sql3):AAAAAAAAAAAAAAAAAAAA
         print("1 cycle done")
         time.sleep(600)
         continue
@@ -223,10 +234,15 @@ def breakDOWNalerttest():
         time.sleep(60)
         continue
 
+a = 1
 
-# for i in range(30):
-#     sql_grabber_and_trendline_generator()
-#     time.sleep(60)
+while a == 1:
+    for i in range(30):
+        sql_grabber_and_trendline_generator()
+        time.sleep(60)
+    print("1 cycle down")
+    time.sleep(600)
+    continue
 
 
 connection.close()
