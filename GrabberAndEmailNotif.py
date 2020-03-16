@@ -1,5 +1,6 @@
-def sql_grabber_and_trendline_generator():
+def sql_grabber_and_trendline_generator(runtime):
 
+    _runtime = runtime
     global connection
     b = 1
 
@@ -20,7 +21,7 @@ def sql_grabber_and_trendline_generator():
 
     while b == 1:
 
-        for i in range(30):
+        for i in range(_runtime):
             api_key = '1456af4c4704e5e6bd4b60c30094b56b-32c375f91dc677c9fce0916d50811d4f'
             cc = ForeignExchange(key=api_key)
             global data
