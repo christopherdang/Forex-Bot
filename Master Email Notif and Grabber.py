@@ -3,6 +3,15 @@ import time
 import pymysql
 import smtplib
 
+api_key = '1456af4c4704e5e6bd4b60c30094b56b-32c375f91dc677c9fce0916d50811d4f'
+cc = ForeignExchange(key=api_key)
+global data
+data, _ = cc.get_currency_exchange_intraday(from_symbol='EUR', to_symbol='USD', interval="1min", outputsize='compact')
+
+global converteddata
+converteddata = str(data)
+print(converteddata)
+
 
 def sql_grabber_and_trendline_generator(runtime):
 
@@ -13,7 +22,7 @@ def sql_grabber_and_trendline_generator(runtime):
     print("Enter a start point for the bottom trend line")
     userchoice = float(input('Type start point here for the bottom trend line-->   '))
     global newuser
-    newuser = userchoice - 1.6000
+    newuser = userchoice
     print(newuser)
 
     print("Enter a start point for the top trend line")
@@ -33,24 +42,30 @@ def sql_grabber_and_trendline_generator(runtime):
             global data
             data, _ = cc.get_currency_exchange_intraday(from_symbol='EUR', to_symbol='USD', interval="1min", outputsize='compact')
 
+            global converteddata
             converteddata = str(data)
+            print(converteddata)
             global connection
             global cursor
-            connection = pymysql.connect(host="localhost", user="root", password="Rodsader1*", db="forextrade")
+            connection = pymysql.connect(host="localhost", user="root", password="Rodsader1*", db="tyler_trade2")
             cursor = connection.cursor()
-            sql3 = "insert into testtoptrendline(testtoptrendlinedata) values (%s)"
-            sql4 = "insert into testbottomtrendline(testbottomtrendlinedata) values (%s)"
-            sql5 = "insert into testtimeprice(testimedata) values (substring(%s from 10794 for 19))"
-            sql6 = "insert into testcloseprice(testclosedata) values (substring(%s from 10892 for 6))"
-            sql7 = "insert into testopenprice(testopendata) values (substring(%s from 10829 for 6))"
+            sql3 = "insert into usd_eur_toptrendline(toptrendlinedata) values (%s)"
+            sql4 = "insert into usd_eur_bottomtrendline(bottomtrendlinedata) values (%s)"
+            sql5 = "insert into usd_eur_timestamp(timestampdata) values (substring(%s from 10794 for 19))"
+            sql6 = "insert into usd_eur_closingprice(closepricedata) values (substring(%s from 10892 for 6))"
+            sql7 = "insert into usd_eur_openingprice(openpricedata) values (substring(%s from 10829 for 6))"
 
             print("insert successful")
-            newuser = newuser + 0.0264
-            newuser2 = newuser2
+            newuser = newuser + 0.00001
+            newuser2 = newuser2 + 0.00001
             cursor.execute(sql4, newuser)
+            connection.commit()
             cursor.execute(sql3, newuser2)
+            connection.commit()
             cursor.execute(sql5, converteddata)
+            connection.commit()
             cursor.execute(sql6, converteddata)
+            connection.commit()
             cursor.execute(sql7, converteddata)
             connection.commit()
 
@@ -172,4 +187,4 @@ def emailNotifTopTrendline(dataPointClosing, dataPointOpening, topTrendlinePoint
     return _aboveLine
 
 
-sql_grabber_and_trendline_generator(1)
+sql_grabber_and_trendline_generator(30)
