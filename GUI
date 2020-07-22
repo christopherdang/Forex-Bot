@@ -1,0 +1,75 @@
+import tkinter as tk
+
+root = tk.Tk()
+
+canvas = tk.Canvas(root, height=500, width=500)
+canvas.pack()
+
+frame = tk.Frame(root, bg='#00ffbf')
+frame.place(relwidth=1, relheight=1)
+
+# Background image
+# backgroundImage = tk.PhotoImage(file='background.jpg')
+# backgroundLabel = tk.Label(root, image=backgroundImage)
+# backgroundLabel.place(x=0, y=0, relwdith=1, relheight=1)
+
+# Currency label
+currencyLabel = tk.Label(frame, text="EUR / USD")
+currencyLabel.pack()
+
+# Run button
+runButton = tk.Button(frame, text="Run")
+runButton.pack()
+runButton.place(relx='.05', rely='.1', height='35', width='60')
+
+# Stop button
+stopButton = tk.Button(frame, text="Stop")
+stopButton.pack()
+stopButton.place(relx='.25', rely='.1', height='35', width='60')
+
+# Redraw trend line button
+redrawButton = tk.Button(frame, text="Redraw Trend line")
+redrawButton.pack()
+redrawButton.place(relx='.45', rely='.1', height='35', width='120')
+
+# Graph button
+graphButton = tk.Button(frame, text="Graph")
+graphButton.pack()
+graphButton.place(relx='.8', rely='.1', height='35', width='60')
+
+# Print window label
+windowLabel = tk.Label(frame, text="Print Window")
+windowLabel.pack()
+windowLabel.place(relx='.4', rely='.4', height='35', width='100')
+
+# Redraw line number entry box 1
+redraw1Entry = tk.Entry(frame)
+redraw1Entry.pack()
+redraw1Entry.place(relx='.3', rely='.5', height='35', width='140')
+
+# Submit redraw line number button 1
+submit1Button = tk.Button(frame, text="Submit")
+submit1Button.pack()
+submit1Button.place(relx='.6', rely='.5', height='35', width='60')
+
+# Redraw line number entry box 2
+redraw2Entry = tk.Entry(frame)
+redraw2Entry.pack()
+redraw2Entry.place(relx='.3', rely='.6', height='35', width='140')
+
+# Submit redraw line number button 2
+submit2Button = tk.Button(frame, text="Submit")
+submit2Button.pack()
+submit2Button.place(relx='.6', rely='.6', height='35', width='60')
+
+# Redraw line number entry box 3
+redraw3Entry = tk.Entry(frame)
+redraw3Entry.pack()
+redraw3Entry.place(relx='.3', rely='.7', height='35', width='140')
+
+# Submit redraw line number button 3
+submit3Button = tk.Button(frame, text="Submit")
+submit3Button.pack()
+submit3Button.place(relx='.6', rely='.7', height='35', width='60')
+
+root.mainloop()
